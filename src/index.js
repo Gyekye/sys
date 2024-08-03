@@ -97,6 +97,26 @@ app.get('/measurements/:deviceId', async (req, res) => {
 });
 
 
+app.get('/devices/:userId', async (req, res) => {
+    const {userId} = req.params;
+
+    if (!userId) {
+        return res.status(400).json({error: 'Device ID is required'});
+    }
+
+    try {
+        const response = await databases.listDocuments(
+            '6678637e001d16c11cc2',
+            '66ad4f79000d944dd761',
+            [Query.equal('userId', userId)]
+        );
+        res.status(200).json(response.documents);
+    } catch (error) {
+        res.status(500).json({error: error.message});
+    }
+});
+
+
 // Start server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
