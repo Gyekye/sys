@@ -20,9 +20,9 @@ const now = new Date();
 
 
 app.post('/devices', async (req, res) => {
-    const {name} = req.body;
+    const {name, userId} = req.body;
 
-    if (!name) {
+    if (!name || !userId) {
         return res.status(400).json({error: 'Missing required fields'});
     }
 
@@ -35,6 +35,7 @@ app.post('/devices', async (req, res) => {
             {
                 id: uid,
                 name,
+                userId,
                 active: true,
             }
         );
